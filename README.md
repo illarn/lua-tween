@@ -17,8 +17,8 @@ M._s_tweenable_classes = {
     interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
       tweenable_value.x = starting_value.x + value_diff.x * easing_function(progress)
       tweenable_value.y = starting_value.y + value_diff.y * easing_function(progress)
-      tweenable_value.z = starting_value.y + value_diff.z * easing_function(progress)
-      tweenable_value.w = starting_value.y + value_diff.w * easing_function(progress)
+      tweenable_value.z = starting_value.z + value_diff.z * easing_function(progress)
+      tweenable_value.w = starting_value.w + value_diff.w * easing_function(progress)
 
       return tweenable_value
     end
