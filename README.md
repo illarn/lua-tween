@@ -5,11 +5,11 @@ A lua 5.4.3 and luajit 2.1.1 compatible tweening library that provides property 
 ## Setup
 
 ```lua
--- [tween.lua](tween.lua:496)
+-- [tween.lua:496]
 -- Attach to your update here. Example:
 update:add_callback(M._update)
 
--- [tween.lua](tween.lua:451)
+-- [tween.lua:451]
 M._s_tweenable_classes = {
 ```
 
