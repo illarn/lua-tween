@@ -12,16 +12,17 @@ update:add_callback(M._update)
 -- [tween.lua:451]
 -- Add interpolation callbacks for your classes. Example:
 M._s_tweenable_classes = {
-	vec = {
-		interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
-			local size = #tweenable_value
-			for i = 1, size do
-				tweenable_value[i] = starting_value[i] + value_diff[i] * easing_function(progress)
-			end
+    ...,
+    vec = {
+        interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
+            local size = #tweenable_value
+            for i = 1, size do
+                tweenable_value[i] = starting_value[i] + value_diff[i] * easing_function(progress)
+            end
 
-			return tweenable_value
-		end
-	}
+            return tweenable_value
+        end
+    }
 }
 ```
 
