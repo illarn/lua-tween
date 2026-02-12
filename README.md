@@ -15,10 +15,10 @@ M._s_tweenable_classes = {
   ...,
   vec = {
     interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
-      local size = #tweenable_value
-      for i = 1, size do
-        tweenable_value[i] = starting_value[i] + value_diff[i] * easing_function(progress)
-      end
+      tweenable_value.x = starting_value.x + value_diff.x * easing_function(progress)
+      tweenable_value.y = starting_value.y + value_diff.y * easing_function(progress)
+      tweenable_value.z = starting_value.y + value_diff.z * easing_function(progress)
+      tweenable_value.w = starting_value.y + value_diff.w * easing_function(progress)
 
       return tweenable_value
     end
