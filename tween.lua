@@ -292,6 +292,8 @@ function Tweener:stop(force)
 	local can_loop = loops_amount
 	if loops_amount then
 		can_loop = current_loops_amount < loops_amount
+	else
+		can_loop = true
 	end
 	if not force and self._loop_mode ~= M.LoopMode.NONE and can_loop then
 		log:debug(s_format("Looping tween %s", self.name))
