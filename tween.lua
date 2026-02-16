@@ -1,8 +1,8 @@
 local s_format = string.format
-local deep_copy = require("lua-utils.deep_copy")
-local class_name = require("lua-utils.class_name")
-local vararg_concat = require("lua-utils.vararg_concat")
-local Logger = require("lua-utils.logger")
+local deep_copy = require("deep_copy")
+local class_name = require("class_name")
+local vararg_concat = require("vararg_concat")
+local Logger = require("logger")
 local log = Logger.new("Tween")
 
 ---@class Tween
