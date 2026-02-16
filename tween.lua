@@ -10,12 +10,14 @@ local log = Logger.new("Tween")
 
 ---@class Tween
 ---@field private _s_tweeners table<Tweener, boolean> reference store for all the tweeners that hasn't beend stopped
----@field private _s_tweenable_classes table<string, Tweenable>
+---@field s_tweenable_classes table<string, Tweenable>
 ---@field LoopMode {NONE: 1, FORWARD: 2, BACKWARD: 3}
 ---@field Easing table<string, TweenEasing>
+---@field logger Logger
 ---@field Direction table<string, TweenDirection>
 local M = {
 	_s_tweeners = {},
+	logger = log
 }
 
 ---@class Tweener
@@ -29,6 +31,8 @@ local M = {
 ---@field duration number in seconds
 ---@field time_left number in seconds
 ---@field private _custom_callback? TweeningCallback
+---@field private _finish_calback? fun()
+---@field private _loop_callback? fun()
 ---@field private _easing_function function
 ---@field private _parallel_tweener? Tweener
 ---@field private _chained_tweener? Tweener
@@ -41,6 +45,7 @@ local Tweener = {
 }
 Tweener.mt = {__index = Tweener, __name = "Tweener"}
 
+---@private
 ---@param value boolean
 function Tweener:_set_active(value)
 	self.active = value
@@ -53,6 +58,7 @@ function Tweener:_set_active(value)
 end
 
 
+---@private
 function Tweener:_generate_keys()
 	self._generic_key = vararg_concat("->", self._target, self._property)
 	self.name = vararg_concat(": ", self, self._generic_key)
@@ -127,6 +133,7 @@ function Tweener:set_loop_mode(mode, loops_amount)
 	return self
 end
 
+---@private
 ---@param easing TweenEasing
 ---@param direction TweenDirection
 ---@return function
@@ -152,6 +159,7 @@ end
 --- makes another tweener execute parallely with this one
 --- returns self for builder pattern
 ---@param value Tweener
+---@return Tweener
 function Tweener:parallel(value)
 	if not value then
 		log:warn(s_format("Trying to add nil parallel tweener to %s)", self.name))
@@ -174,19 +182,36 @@ end
 function Tweener:chain(value)
 	if not value then
 		log:warn(s_format("Trying to add nil chained tweener to %s)", self.name))
-		return value
+		return self
 	end
 	local chain_tweener = self._chained_tweener
 	if chain_tweener then
 		log:warn(s_format("Trying to add chained %s to %s, which already exists"), value.name, self.name)
-		return value
+		return self
 	end
 
 	self._chained_tweener = value
 
-	return value
+	return self
 end
 
+---@param callback fun()
+---@return Tweener
+function Tweener:on_finish(callback)
+	self._finish_calback = callback
+	
+	return self
+end
+
+---@param callback fun()
+---@return Tweener
+function Tweener:on_loop(callback)
+	self._loop_callback = callback
+	
+	return self
+end
+
+---@private
 ---@return string? error
 function Tweener:_generate_callback()
 	local target = self._target
@@ -199,7 +224,7 @@ function Tweener:_generate_callback()
 		return s_format("Can't tween unexisting property %s of %s", tostring(property), tostring(target))
 	end
 	local tweenable_class = class_name(tweened_object)
-	local tweenable = M._s_tweenable_classes[tweenable_class]
+	local tweenable = M.s_tweenable_classes[tweenable_class]
 	if not tweenable then
 		return s_format("Can't tween property %s of %s, unsupported type %s", tostring(property), tostring(target), tweenable_class)
 	end
@@ -237,7 +262,7 @@ end
 ---@return Tweener
 function Tweener:start(_force)
 	log:debug(s_format("Starting %s", self.name))
-	local key = self.name
+	local key = self._generic_key
 	if Tweener._s_activity_statuses[key] and not _force then
 		log:warn(s_format("Can't start %s, property is already being tweened", key))
 		return self
@@ -289,6 +314,7 @@ function Tweener:stop(force)
 	local starting_value = self._starting_value
 	local loops_amount = self._loops_amount
 	local current_loops_amount = self._current_loops_amount
+
 	local can_loop = loops_amount
 	if loops_amount then
 		can_loop = current_loops_amount < loops_amount
@@ -299,21 +325,37 @@ function Tweener:stop(force)
 		log:debug(s_format("Looping tween %s", self.name))
 		self._current_loops_amount = current_loops_amount + 1
 		if self._loop_mode == M.LoopMode.FORWARD then
-			self._target = starting_value
+			if self._property then
+				self._target[self._property] = starting_value
+			else
+				self._target = starting_value
+			end
 		else
-			self._target = self._target_value
-			self._target_value = starting_value
+			if self._property then
+				self._target[self._property] = self._target_value
+				self._target_value = starting_value
+			else
+				self._target = self._target_value
+				self._target_value = starting_value
+			end
 		end
 		self:start(true)
+		self:_loop_callback()
 
 		return self
 	end
+
 	log:debug(s_format("Stopping %s", self.name))
 	self:_set_active(false)
 	local chained_tweener = self._chained_tweener
 	if chained_tweener then
 		log:debug(s_format("%s has chained %s, starting", self.name, chained_tweener.name))
 		chained_tweener:start()
+	end
+
+	local finish_callback = self._finish_calback
+	if finish_callback then
+		finish_callback()
 	end
 
 	return self
@@ -332,6 +374,7 @@ function Tweener:_update(dt)
 	end
 end
 
+---@private
 ---@param target? any
 ---@param property? any
 ---@param target_value? any
@@ -453,30 +496,19 @@ M.LoopMode = {
 ---@alias Tweenable {
 	---interpolate: (fun(tweened_object: any, starting_value: any, value_diff: any, easing_function: function, progress: number): any),
 	---}
-M._s_tweenable_classes = {
+M.s_tweenable_classes = {
 	number = {
 		interpolate = function(_, starting_value, value_diff, easing_function, progress)
 			return starting_value + value_diff * easing_function(progress)
 		end
 	},
-	vec = {
-		interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
-			-- TODO: Replace this with your implementation. Example:
-			-- local size = #tweenable_value
-			-- for i = 1, size do
-			-- 	tweenable_value[i] = starting_value[i] + value_diff[i] * easing_function(progress)
-			-- end
-			--
-			-- return tweenable_value
-		end
-	}
 }
 
 ---@param target any what will we tween
----@param property any target[property]. pass nil for tween to target itself
+---@param property? any pass nil for tween to target itself
 ---@param target_value any what value should property be in the end
 ---@param duration number in seconds
----@return Tweener?
+---@return Tweener
 function M.new_property_tweener(target, property, target_value, duration)
 	local result = Tweener._new(target, property, target_value, duration)
 
@@ -497,8 +529,5 @@ function M._update(dt)
 		tweener:_update(dt)
 	end
 end
-
--- TODO: Attach to your update here. Example:
--- update:add_callback(M._update)
 
 return M

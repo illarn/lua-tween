@@ -2,17 +2,25 @@
 
 A lua 5.4.3 and luajit 2.1.1 compatible tweening library that provides property interpolation with easing, parallel/sequential chaining and loop support.
 
+## Examples
+```lua
+-- TODO: add love2d example
+```
+
 ## Setup
 
 ```lua
--- [tween.lua:496]
--- Attach to your update here. Example:
-update:add_callback(M._update)
+local tween = require("tween")
 
--- [tween.lua:451]
--- Add interpolation callbacks for your classes. Example:
-M._s_tweenable_classes = {
-  ...,
+-- Before using the library you have to attach its update callback. Example:
+update:add_callback(tween._update)
+-- Or
+function update(dt)
+  tween._update(dt)
+end
+
+-- To support custom classes add them to the _s_tweenable_classes. Example:
+table.insert(tween.s_tweenable_classes, {
   vec = {
     interpolate = function(tweenable_value, starting_value, value_diff, easing_function, progress)
       tweenable_value.x = starting_value.x + value_diff.x * easing_function(progress)
@@ -23,13 +31,13 @@ M._s_tweenable_classes = {
       return tweenable_value
     end
   }
-}
+})
 ```
 
 ## Usage
 
 ```lua
-local tween = require("tween")
+local Tween = require("tween")
 
 -- Basic property tween
 local my_tweener = tween.new_property_tweener(obj, "x", 100, 2.0)
@@ -73,3 +81,9 @@ my_tweener:stop()
 
 ## Loop Modes
 `NONE`, `FORWARD`, `BACKWARD`
+
+## Tests
+```bash
+luajit tests/tween.lua
+lua tests/tween.lua
+```
