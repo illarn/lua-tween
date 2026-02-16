@@ -1,5 +1,5 @@
 package = "illarn-tween"
-version = "1.0.0-4"
+version = "1.0.0-5"
 source = {
    url = "git+https://github.com/illarn/lua-tween.git"
 }
