@@ -1,6 +1,3 @@
--- Get dependencies
-package.path = "./lua-utils/?.lua;./lua_utils/?/init.lua;" .. package.path
-
 local s_format = string.format
 local deep_copy = require("lua-utils.deep_copy")
 local class_name = require("lua-utils.class_name")
