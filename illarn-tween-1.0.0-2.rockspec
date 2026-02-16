@@ -1,5 +1,5 @@
 package = "illarn-tween"
-version = "1.0.0-1"
+version = "1.0.0-2"
 source = {
    url = "git+https://github.com/illarn/lua-tween.git"
 }
@@ -9,17 +9,12 @@ description = {
    license = "GPLv3"
 }
 dependencies = {
-   "lua >= 5.1, < 5.5"
+   "lua >= 5.1, < 5.5",
+   "illarn-utils ~> 1.0",
 }
 build = {
    type = "builtin",
    modules = {
-      ["git.modules.logger"] = ".git/modules/logger.lua",
-      ["lua-utils.class_name"] = "lua-utils/class_name.lua",
-      ["lua-utils.deep_copy"] = "lua-utils/deep_copy.lua",
-      ["lua-utils.logger"] = "lua-utils/logger.lua",
-      ["lua-utils.stringifier"] = "lua-utils/stringifier.lua",
-      ["lua-utils.vararg_concat"] = "lua-utils/vararg_concat.lua",
       tween = "tween.lua"
    },
 }
