@@ -5,7 +5,6 @@ Tweening library that provides property interpolation with easing, parallel/sequ
 ## Installation
 ```
 luarocks install illarn-tween
-luarocks make
 ```
 
 ## Setup
