@@ -1,5 +1,5 @@
 package = "illarn-tween"
-version = "1.0.0-7"
+version = "1.0.0-8"
 source = {
    url = "git+https://github.com/illarn/lua-tween.git"
 }
@@ -15,6 +15,6 @@ dependencies = {
 build = {
    type = "builtin",
    modules = {
-      tween = "tween.lua"
+      ["illarn.tween"] = "illarn/tween.lua"
    },
 }
