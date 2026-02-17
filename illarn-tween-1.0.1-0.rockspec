@@ -1,10 +1,10 @@
 package = "illarn-tween"
-version = "1.0.0-8"
+version = "1.0.1-0"
 source = {
    url = "git+https://github.com/illarn/lua-tween.git"
 }
 description = {
-   detailed = "A lua 5.4.3 and luajit 2.1.1 compatible tweening library that provides property interpolation with easing, parallel/sequential chaining and loop support.\n Check out the github page for a detailed setup and usage guide.",
+   detailed = "Tweening library that provides property interpolation with easing, parallel/sequential chaining and loop support.\n Check out the github page for a detailed setup and usage guide",
    homepage = "https://github.com/illarn/lua-tween",
    license = "GPLv3"
 }
