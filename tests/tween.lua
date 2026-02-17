@@ -1,5 +1,5 @@
-local Tween = require("tween")
-local Logger = require("logger")
+local Tween = require("illarn.tween")
+local Logger = require("illarn.logger")
 local log = Logger.new("Tween Testing")
 
 local running = true

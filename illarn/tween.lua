@@ -1,8 +1,8 @@
 local s_format = string.format
-local deep_copy = require("deep_copy")
-local class_name = require("class_name")
-local vararg_concat = require("vararg_concat")
-local Logger = require("logger")
+local deep_copy = require("illarn.deep_copy")
+local class_name = require("illarn.class_name")
+local vararg_concat = require("illarn.vararg_concat")
+local Logger = require("illarn.logger")
 local log = Logger.new("Tween")
 
 ---@class Tween
