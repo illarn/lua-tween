@@ -3,7 +3,7 @@
 Tweening library that provides property interpolation with easing, parallel/sequential chaining and loop support
 
 ## [Demonstration](examples/love2d/main.lua)
-<video src"media/tween-anim.webm" controls width="100%"></video>
+<video src="media/tween-anim.webm" controls width="100%"></video>
 
 ## Installation
 ```
