@@ -7,6 +7,7 @@ Tweening library that provides property interpolation with easing, parallel/sequ
 <video src="https://github.com/user-attachments/assets/bee58cc0-9147-473a-a150-8f934b552f84" width="800" height="600" width="100%" controls></video>
 
 ## Installation
+[Luarocks](https://luarocks.org/modules/illarn/illarn-tween)
 ```
 luarocks install illarn-tween
 ```
