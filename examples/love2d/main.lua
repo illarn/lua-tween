@@ -25,7 +25,7 @@ Tween.new_property_tweener(pos_sine, "y", target_y, duration)
 	):start()
 
 local size_complex = 0
-local size_complex_target = 10
+local size_complex_target = 15
 local pos_complex = {x = 100, y = 500}
 local target_complex = {x = 700, y = 400}
 
@@ -66,16 +66,15 @@ end
 function love.draw()
 	love.graphics.setColor({0.992, 0.965, 0.886})
 	love.graphics.setNewFont(24)
-	love.graphics.print("Sine", 50, 10)
+	love.graphics.print("Sine", 50, 20)
 	love.graphics.circle("fill", 80, pos_sine.y, 10)
-	love.graphics.print("Bounce", 250, 10)
+	love.graphics.print("Bounce", 250, 20)
 	love.graphics.circle("fill", 280, pos_bounce.y, 10)
-	love.graphics.print("Back", 450, 10)
+	love.graphics.print("Back", 450, 20)
 	love.graphics.circle("fill", 480, pos_back.y, 10)
-	love.graphics.print("Elastic", 650, 10)
+	love.graphics.print("Elastic", 650, 20)
 	love.graphics.circle("fill", 680, pos_elastic.y, 10)
 
-	love.graphics.setBackgroundColor({0.184, 0.247, 0.349})
 	love.graphics.print("Complex Animation", 50, 380)
 	love.graphics.setColor({1.0, 0.596, 0.118})
 	love.graphics.circle("fill", pos_complex.x, pos_complex.y, size_complex)
