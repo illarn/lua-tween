@@ -31,7 +31,7 @@ local M = {
 ---@field duration number in seconds
 ---@field time_left number in seconds
 ---@field private _custom_callback? TweeningCallback
----@field private _finish_calback? fun(self: Tweener)
+---@field private _finish_callback? fun(self: Tweener)
 ---@field private _loop_callback? fun(self: Tweener)
 ---@field private _easing_function function
 ---@field private _parallel_tweener? Tweener
@@ -193,7 +193,6 @@ function Tweener:chain(value)
 	end
 	local chain_tweener = self._chained_tweener
 	if chain_tweener then
-		print(self.value, self.name)
 		log:warn(s_format("Trying to add chained %s to %s, which already exists", tostring(value.name), tostring(self.name)))
 		return self
 	end
@@ -207,7 +206,7 @@ end
 ---@return Tweener
 --- Will only be executed if tweener finished gracefully (not via stop() function)
 function Tweener:on_finish(callback)
-	self._finish_calback = callback
+	self._finish_callback = callback
 	
 	return self
 end
@@ -409,7 +408,7 @@ function Tweener:_stop(force)
 	end
 
 	if not force then
-		local finish_callback = self._finish_calback
+		local finish_callback = self._finish_callback
 		if finish_callback then
 			finish_callback(self)
 		end
