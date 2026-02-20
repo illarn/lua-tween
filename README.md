@@ -6,7 +6,7 @@ Tweening library that provides property interpolation with easing, parallel/sequ
 ```bash
 love examples/love2d
 ```
-<video src="https://github.com/user-attachments/assets/bee58cc0-9147-473a-a150-8f934b552f84" width="800" height="600" width="100%" controls></video>
+<video src="https://github.com/user-attachments/assets/fee718c6-baf3-4cc9-9f96-58a4636154f5" width="800" height="600" width="100%" controls></video>
 
 ## Installation
 [Luarocks](https://luarocks.org/modules/illarn/illarn-tween)
