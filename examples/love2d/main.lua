@@ -64,6 +64,8 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.setColor({0.992, 0.965, 0.886})
+	love.graphics.setNewFont(24)
 	love.graphics.print("Sine", 50, 10)
 	love.graphics.circle("fill", 80, pos_sine.y, 10)
 	love.graphics.print("Bounce", 250, 10)
@@ -73,6 +75,8 @@ function love.draw()
 	love.graphics.print("Elastic", 650, 10)
 	love.graphics.circle("fill", 680, pos_elastic.y, 10)
 
-	love.graphics.print("Complex Animation", 50, 400)
+	love.graphics.setBackgroundColor({0.184, 0.247, 0.349})
+	love.graphics.print("Complex Animation", 50, 380)
+	love.graphics.setColor({1.0, 0.596, 0.118})
 	love.graphics.circle("fill", pos_complex.x, pos_complex.y, size_complex)
 end
