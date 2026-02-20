@@ -3,7 +3,9 @@
 Tweening library that provides property interpolation with easing, parallel/sequential chaining and loop support
 
 ## [Demonstration](examples/love2d/main.lua)
-
+```lua
+love examples/love2d
+```
 <video src="https://github.com/user-attachments/assets/bee58cc0-9147-473a-a150-8f934b552f84" width="800" height="600" width="100%" controls></video>
 
 ## Installation
@@ -48,6 +50,7 @@ local Tween = require("illarn.tween")
 local my_tweener = tween.new_property_tweener(obj, "x", 100, 2.0)
     :set_easing_function(tween.Easing.SINE, tween.Direction.OUT)
     :start()
+
 
 -- Blank tweener with custom callback
 local custom = tween.new_blank_tweener()
